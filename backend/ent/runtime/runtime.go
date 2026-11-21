@@ -145,6 +145,10 @@ func init() {
 	apikeyDescUsage7d := apikeyFields[16].Descriptor()
 	// apikey.DefaultUsage7d holds the default value on creation for the usage_7d field.
 	apikey.DefaultUsage7d = apikeyDescUsage7d.Default.(float64)
+	// apikeyDescPromptInjectionEnabled is the schema descriptor for prompt_injection_enabled field.
+	apikeyDescPromptInjectionEnabled := apikeyFields[20].Descriptor()
+	// apikey.DefaultPromptInjectionEnabled holds the default value on creation for the prompt_injection_enabled field.
+	apikey.DefaultPromptInjectionEnabled = apikeyDescPromptInjectionEnabled.Default.(bool)
 	accountMixin := schema.Account{}.Mixin()
 	accountMixinHooks1 := accountMixin[1].Hooks()
 	account.Hooks[0] = accountMixinHooks1[0]

@@ -307,6 +307,20 @@ func (_c *APIKeyCreate) SetNillableWindow7dStart(v *time.Time) *APIKeyCreate {
 	return _c
 }
 
+// SetPromptInjectionEnabled sets the "prompt_injection_enabled" field.
+func (_c *APIKeyCreate) SetPromptInjectionEnabled(v bool) *APIKeyCreate {
+	_c.mutation.SetPromptInjectionEnabled(v)
+	return _c
+}
+
+// SetNillablePromptInjectionEnabled sets the "prompt_injection_enabled" field if the given value is not nil.
+func (_c *APIKeyCreate) SetNillablePromptInjectionEnabled(v *bool) *APIKeyCreate {
+	if v != nil {
+		_c.SetPromptInjectionEnabled(*v)
+	}
+	return _c
+}
+
 // SetUser sets the "user" edge to the User entity.
 func (_c *APIKeyCreate) SetUser(v *User) *APIKeyCreate {
 	return _c.SetUserID(v.ID)
@@ -419,6 +433,10 @@ func (_c *APIKeyCreate) defaults() error {
 		v := apikey.DefaultUsage7d
 		_c.mutation.SetUsage7d(v)
 	}
+	if _, ok := _c.mutation.PromptInjectionEnabled(); !ok {
+		v := apikey.DefaultPromptInjectionEnabled
+		_c.mutation.SetPromptInjectionEnabled(v)
+	}
 	return nil
 }
 
@@ -480,6 +498,9 @@ func (_c *APIKeyCreate) check() error {
 	}
 	if _, ok := _c.mutation.Usage7d(); !ok {
 		return &ValidationError{Name: "usage_7d", err: errors.New(`ent: missing required field "APIKey.usage_7d"`)}
+	}
+	if _, ok := _c.mutation.PromptInjectionEnabled(); !ok {
+		return &ValidationError{Name: "prompt_injection_enabled", err: errors.New(`ent: missing required field "APIKey.prompt_injection_enabled"`)}
 	}
 	if len(_c.mutation.UserIDs()) == 0 {
 		return &ValidationError{Name: "user", err: errors.New(`ent: missing required edge "APIKey.user"`)}
@@ -594,6 +615,10 @@ func (_c *APIKeyCreate) createSpec() (*APIKey, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.Window7dStart(); ok {
 		_spec.SetField(apikey.FieldWindow7dStart, field.TypeTime, value)
 		_node.Window7dStart = &value
+	}
+	if value, ok := _c.mutation.PromptInjectionEnabled(); ok {
+		_spec.SetField(apikey.FieldPromptInjectionEnabled, field.TypeBool, value)
+		_node.PromptInjectionEnabled = value
 	}
 	if nodes := _c.mutation.UserIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
@@ -1060,6 +1085,18 @@ func (u *APIKeyUpsert) UpdateWindow7dStart() *APIKeyUpsert {
 // ClearWindow7dStart clears the value of the "window_7d_start" field.
 func (u *APIKeyUpsert) ClearWindow7dStart() *APIKeyUpsert {
 	u.SetNull(apikey.FieldWindow7dStart)
+	return u
+}
+
+// SetPromptInjectionEnabled sets the "prompt_injection_enabled" field.
+func (u *APIKeyUpsert) SetPromptInjectionEnabled(v bool) *APIKeyUpsert {
+	u.Set(apikey.FieldPromptInjectionEnabled, v)
+	return u
+}
+
+// UpdatePromptInjectionEnabled sets the "prompt_injection_enabled" field to the value that was provided on create.
+func (u *APIKeyUpsert) UpdatePromptInjectionEnabled() *APIKeyUpsert {
+	u.SetExcluded(apikey.FieldPromptInjectionEnabled)
 	return u
 }
 
@@ -1532,6 +1569,20 @@ func (u *APIKeyUpsertOne) UpdateWindow7dStart() *APIKeyUpsertOne {
 func (u *APIKeyUpsertOne) ClearWindow7dStart() *APIKeyUpsertOne {
 	return u.Update(func(s *APIKeyUpsert) {
 		s.ClearWindow7dStart()
+	})
+}
+
+// SetPromptInjectionEnabled sets the "prompt_injection_enabled" field.
+func (u *APIKeyUpsertOne) SetPromptInjectionEnabled(v bool) *APIKeyUpsertOne {
+	return u.Update(func(s *APIKeyUpsert) {
+		s.SetPromptInjectionEnabled(v)
+	})
+}
+
+// UpdatePromptInjectionEnabled sets the "prompt_injection_enabled" field to the value that was provided on create.
+func (u *APIKeyUpsertOne) UpdatePromptInjectionEnabled() *APIKeyUpsertOne {
+	return u.Update(func(s *APIKeyUpsert) {
+		s.UpdatePromptInjectionEnabled()
 	})
 }
 
@@ -2170,6 +2221,20 @@ func (u *APIKeyUpsertBulk) UpdateWindow7dStart() *APIKeyUpsertBulk {
 func (u *APIKeyUpsertBulk) ClearWindow7dStart() *APIKeyUpsertBulk {
 	return u.Update(func(s *APIKeyUpsert) {
 		s.ClearWindow7dStart()
+	})
+}
+
+// SetPromptInjectionEnabled sets the "prompt_injection_enabled" field.
+func (u *APIKeyUpsertBulk) SetPromptInjectionEnabled(v bool) *APIKeyUpsertBulk {
+	return u.Update(func(s *APIKeyUpsert) {
+		s.SetPromptInjectionEnabled(v)
+	})
+}
+
+// UpdatePromptInjectionEnabled sets the "prompt_injection_enabled" field to the value that was provided on create.
+func (u *APIKeyUpsertBulk) UpdatePromptInjectionEnabled() *APIKeyUpsertBulk {
+	return u.Update(func(s *APIKeyUpsert) {
+		s.UpdatePromptInjectionEnabled()
 	})
 }
 
