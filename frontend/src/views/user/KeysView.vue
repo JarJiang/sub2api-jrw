@@ -989,6 +989,34 @@
             </div>
           </div>
         </div>
+
+        <!-- Prompt Injection Section -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <label class="input-label mb-0">{{ t('keys.promptInjection') }}</label>
+            <button
+              type="button"
+              @click="formData.prompt_injection_enabled = !formData.prompt_injection_enabled"
+              :class="[
+                'relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none',
+                formData.prompt_injection_enabled ? 'bg-primary-600' : 'bg-gray-200 dark:bg-dark-600'
+              ]"
+            >
+              <span
+                :class="[
+                  'pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
+                  formData.prompt_injection_enabled ? 'translate-x-4' : 'translate-x-0'
+                ]"
+              />
+            </button>
+          </div>
+
+          <div v-if="formData.prompt_injection_enabled" class="pt-2">
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              {{ t('keys.promptInjectionAutoDescription') }}
+            </p>
+          </div>
+        </div>
       </form>
       <template #footer>
         <div class="flex justify-end gap-3">
@@ -1458,7 +1486,9 @@ const formData = ref({
   rate_limit_7d: null as number | null,
   enable_expiration: false,
   expiration_preset: '30' as '7' | '30' | '90' | 'custom',
-  expiration_date: ''
+  expiration_date: '',
+  // Prompt injection settings
+  prompt_injection_enabled: false
 })
 
 // 自定义Key验证
@@ -1733,7 +1763,8 @@ const editKey = (key: ApiKey) => {
     rate_limit_7d: key.rate_limit_7d || null,
     enable_expiration: hasExpiration,
     expiration_preset: 'custom',
-    expiration_date: key.expires_at ? formatDateTimeLocal(key.expires_at) : ''
+    expiration_date: key.expires_at ? formatDateTimeLocal(key.expires_at) : '',
+    prompt_injection_enabled: key.prompt_injection_enabled || false
   }
   showEditModal.value = true
 }
@@ -1883,6 +1914,7 @@ const handleSubmit = async () => {
         rate_limit_5h: rateLimitData.rate_limit_5h,
         rate_limit_1d: rateLimitData.rate_limit_1d,
         rate_limit_7d: rateLimitData.rate_limit_7d,
+        prompt_injection_enabled: formData.value.prompt_injection_enabled
       }
       if (shouldSubmitEditStatus(selectedKey.value, formData.value.status)) {
         updates.status = formData.value.status
@@ -1899,7 +1931,8 @@ const handleSubmit = async () => {
         ipBlacklist,
         quota,
         expiresInDays,
-        rateLimitData
+        rateLimitData,
+        formData.value.prompt_injection_enabled
       )
       appStore.showSuccess(t('keys.keyCreatedSuccess'))
       // Only advance tour if active, on submit step, and creation succeeded
@@ -1959,7 +1992,8 @@ const closeModals = () => {
     rate_limit_7d: null,
     enable_expiration: false,
     expiration_preset: '30',
-    expiration_date: ''
+    expiration_date: '',
+    prompt_injection_enabled: false
   }
 }
 

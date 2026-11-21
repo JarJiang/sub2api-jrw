@@ -300,6 +300,17 @@ func (h *GatewayHandler) ChatCompletions(c *gin.Context) {
 		if channelMapping.Mapped {
 			forwardBody = h.gatewayService.ReplaceModelInBody(body, channelMapping.MappedModel)
 		}
+
+		// 智能动态提示词注入
+		if apiKey.PromptInjectionEnabled {
+			injectedBody, injectionApplied := service.InjectPromptIfEnabled(apiKey, forwardBody, account.Platform)
+			if injectionApplied {
+				forwardBody = injectedBody
+				reqLog.Info("gateway.cc.prompt_injection_applied",
+					zap.String("platform", string(account.Platform)),
+					zap.Int64("api_key_id", apiKey.ID))
+			}
+		}
 		var result *service.ForwardResult
 		setActualUpstreamEndpoint(c, "")
 		if account.Platform == service.PlatformGemini {

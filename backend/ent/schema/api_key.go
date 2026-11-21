@@ -115,6 +115,11 @@ func (APIKey) Fields() []ent.Field {
 			Optional().
 			Nillable().
 			Comment("Start time of the current 7d rate limit window"),
+
+		// ========== Prompt injection fields ==========
+		field.Bool("prompt_injection_enabled").
+			Default(false).
+			Comment("Enable intelligent dynamic prompt injection for this API key"),
 	}
 }
 
