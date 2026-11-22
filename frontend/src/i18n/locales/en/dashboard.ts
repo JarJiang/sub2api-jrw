@@ -328,6 +328,7 @@ export default {
       expired: 'Expired',
     },
     // Prompt injection
+    promptInjection: 'Prompt Injection',
     promptInjectionEnabled: 'Intelligent Prompt Injection',
     promptInjectionAutoDescription: 'Automatically detects programming language, framework, and task type from requests, then injects optimized contextual prompts. Supports 12 languages (Go, Python, Java, etc.), 11 frameworks (Spring, Django, React, etc.), and 8 task types. Adds ~200-400 tokens per request. Helps improve code quality, security awareness, and API response accuracy.',
   },

@@ -333,6 +333,7 @@ export default {
       expired: '已过期'
     },
     // 提示词注入
+    promptInjection: '提示词注入',
     promptInjectionEnabled: '智能提示词注入',
     promptInjectionAutoDescription: '自动检测请求中的编程语言、框架和任务类型，然后注入优化的上下文提示词。支持 12 种语言（Go、Python、Java 等）、11 种框架（Spring、Django、React 等）和 8 种任务类型。每次请求增加约 200-400 个 token。有助于提高代码质量、安全意识和 API 响应准确性。',
   },
